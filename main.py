@@ -51,10 +51,13 @@ def find_similar_regions(image: np.ndarray, min_height: int = 100) -> np.ndarray
             
             # 使用比率测试筛选出好的匹配点
             good_matches = []
-            for m, n in matches:
-                # 如果最佳匹配的距离小于次佳匹配的0.7倍，则认为是好的匹配
-                if m.distance < 0.7 * n.distance:
-                    good_matches.append(m)
+            for match in matches:
+                # 确保找到了两个匹配点
+                if len(match) == 2:
+                    m, n = match
+                    # 如果最佳匹配的距离小于次佳匹配的0.7倍，则认为是好的匹配
+                    if m.distance < 0.7 * n.distance:
+                        good_matches.append(m)
             
             # 如果当前分割点的匹配数量更多，则更新最佳匹配结果
             if len(good_matches) > best_match_count:
